@@ -42,10 +42,18 @@ export default function NavDrawer({ pages }: PagesProp) {
             </div>
           ))}
         </div>
-        <DrawerFooter>
-          <Button className="w-72 mx-auto">
-            <Link href="/subscribe">Get Unlimited Services</Link>
-          </Button>
+        <DrawerFooter className="mx-auto">
+          <a
+            href="/subscribe"
+            className="w-96 flex justify-center items-center"
+          >
+            <DrawerClose className="flex justify-center items-center">
+              <Button className="mx-auto w-full">
+                Get Unlimited Services{" "}
+              </Button>
+            </DrawerClose>
+          </a>
+
           <DrawerClose>
             <Button variant="outline">Go back</Button>
           </DrawerClose>

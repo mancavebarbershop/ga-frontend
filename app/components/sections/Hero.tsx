@@ -17,14 +17,14 @@ export default function Hero({ data = {} }: HeroProps) {
   console.log(data);
   return (
     <section className="flex flex-col px-4 py-20 gap-8 mx-auto">
-      <div className="w-full h-96 bg-white rounded-xl max-w-[720px] mx-auto relative">
+      <div className="w-full h-96 bg-white rounded-xl max-w-[720px] mx-auto relative overflow-hidden">
         {data.imageURL?.url && (
           <Image
             src={"http://localhost:1337" + data.imageURL.url}
             alt="Image"
             fill
             style={{
-              objectFit: "contain",
+              objectFit: "cover",
             }}
           />
         )}
