@@ -4,11 +4,8 @@
  */
 "use client";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
 import NavDrawer from "./NavDrawer";
 import Image from "next/image";
-import { getSingleAsset } from "@/lib/strapi";
 import useScreenSize from "@/lib/useScreenSize";
 import {
   DropdownMenu,
