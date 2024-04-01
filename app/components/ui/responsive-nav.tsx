@@ -6,7 +6,7 @@
 import Link from "next/link";
 import NavDrawer from "./NavDrawer";
 import Image from "next/image";
-import useScreenSize from "@/lib/useScreenSize";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,16 +67,8 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 export function ResponsiveNav() {
-  const screenSize = useScreenSize();
-
   return (
-    <div
-      className={classNames(
-        screenSize.width < 756
-          ? "flex justify-between items-center px-4 py-2 h-16 bg-stone-900 "
-          : "flex justify-between items-center px-4 py-2 h-16 bg-stone-900 text-white"
-      )}
-    >
+    <div className="flex justify-between container h-12 py-2">
       <Link className="flex items-center gap-2" href="/">
         <Image
           src="/groomingLogo.png"
@@ -85,29 +77,30 @@ export function ResponsiveNav() {
           alt="Grooming Alchemist Logo"
         />
       </Link>
-      {screenSize.width < 756 ? (
-        <div className="flex gap-4 items-center">
-          <NavDrawer pages={servicesMenu} />
-        </div>
-      ) : (
-        <div className="flex gap-12">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-white flex items-center gap-2">
-              Services
-              <ChevronDown size={16} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {servicesMenu.map((menu) => (
-                <Link href={menu.slug} className="text-black">
-                  <DropdownMenuItem>{menu.title}</DropdownMenuItem>
-                </Link>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-        </div>
-      )}
+      <div className={classNames("md:hidden")}>
+        <NavDrawer pages={servicesMenu} />
+      </div>
+      <div
+        className={classNames(
+          "hidden md:flex items-center justify-center gap-8"
+        )}
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger className="text-white flex items-center gap-2">
+            Services
+            <ChevronDown size={16} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {servicesMenu.map((menu) => (
+              <Link href={menu.slug} key={menu.slug} className="text-black">
+                <DropdownMenuItem>{menu.title}</DropdownMenuItem>
+              </Link>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Link href="/about">About</Link>
+        <Link href="/contact">Contact</Link>
+      </div>
     </div>
   );
 }
