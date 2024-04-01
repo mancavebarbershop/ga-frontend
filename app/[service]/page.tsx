@@ -3,59 +3,45 @@ import { flattenAttributes } from "@/lib/utils";
 import { RenderLayout } from "@/lib/RenderLayout";
 import { notFound } from "next/navigation";
 
-const baseURL = process.env.NEXT_PUBLIC_STRAPI_BASE_URL;
-const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+const baseURL = process.env.STRAPI_BASE_URL;
+const token = process.env.STRAPI_API_TOKEN;
 const options = {
   method: "GET",
+  cache: "no-store",
   headers: {
     Authorization: `Bearer ${token}`,
   },
 };
 
-const serviceQuery = qs.stringify({
-  fields: ["title", "slug"],
-  populate: {
-    layout: {
-      populate: {
-        imageURL: {
-          fields: ["url"],
-        },
-      },
-    },
-  },
-});
-
-const getPageData = async (slug: string) => {
-  const serviceSlugQuery = qs.stringify({
+const getPageData = async (pageSlug: string) => {
+  const slugQuery = qs.stringify({
     populate: {
-      slug: {
-        populate: true,
-      },
       layout: {
-        populate: "*",
+        populate: {
+          Feature: {
+            populate: "*",
+          }, // Assuming 'featureImage' is the correct field name
+        },
+        // ... add other components here if they have nested relations you want to populate
       },
     },
     filters: {
       slug: {
-        $eq: slug,
+        $eq: pageSlug,
       },
     },
   });
   try {
-    const res = await fetch(
-      `http://localhost:1337/api/services?${serviceSlugQuery}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`http://localhost:1337/api/services?${slugQuery}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
     const data = await res.json();
     const flatData = flattenAttributes(data);
-    console.log("flatdata", flatData);
     return flatData;
   } catch (err) {
     console.log(err);
@@ -68,6 +54,7 @@ export async function generateStaticParams() {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    cache: "no-store",
   });
   const data = await servicePages.json();
   const flattenedData = flattenAttributes(data);
@@ -77,14 +64,13 @@ export async function generateStaticParams() {
 
 export default async function ServicesPage({ params }: any) {
   const slug = params.service;
-  const { data } = await getPageData(slug);
-  if (!data[0]) {
+  const data = await getPageData(slug);
+  const { data: flatData } = await flattenAttributes(data);
+  if (!flatData[0]) {
     notFound();
   }
-  const pageData = data[0];
+  const pageData = flatData[0];
   const layout = pageData.layout;
-  // console.log(pageData.layout);
-  // console.log(layout);
   return (
     <main>
       <RenderLayout layout={layout} />

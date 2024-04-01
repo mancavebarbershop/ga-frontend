@@ -8,16 +8,20 @@ interface HeroData {
   buttonText: string;
   alignment?: string;
   imageURL?: { url: string; alt: string };
+  imagePosition?: string;
 }
 interface HeroProps {
   data: Partial<HeroData>;
 }
 
 export default function Hero({ data = {} }: HeroProps) {
-  console.log(data);
   return (
     <section className="flex flex-col px-4 py-20 gap-8 mx-auto">
-      <div className="w-full h-96 bg-white rounded-xl max-w-[720px] mx-auto relative overflow-hidden">
+      <div
+        className={`w-full h-96 bg-white rounded-xl max-w-[720px] mx-auto relative overflow-hidden ${
+          data.imagePosition === "below" ? "order-1" : null
+        }`}
+      >
         {data.imageURL?.url && (
           <Image
             src={"http://localhost:1337" + data.imageURL.url}

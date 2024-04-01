@@ -1,8 +1,8 @@
 import qs from "qs";
 import { flattenAttributes } from "./utils";
 
-const baseURL = process.env.NEXT_PUBLIC_STRAPI_BASE_URL;
-const token = process.env.NEXT_PUBLIC_STRAPI_API_TOKEN;
+const baseURL = process.env.STRAPI_BASE_URL;
+const token = process.env.STRAPI_API_TOKEN;
 const options = {
   method: "GET",
   cache: "no-store",
@@ -15,37 +15,55 @@ const pageQuery = qs.stringify({
   fields: ["title", "slug"],
   populate: {
     layout: {
-      populate: {
-        imageURL: {
-          fields: ["url"],
-        },
-      },
+      populate: "*",
     },
   },
 });
 
-export const getPageData = async (slug: string) => {
+export const getPageData = async (pageSlug: string) => {
+  const generalPopulate = {
+    "components.cta": true,
+    "components.hero": true,
+  };
+
+  const featureCardPopulate = {
+    "components.feature-cards": {
+      populate: {
+        Feature: {
+          featureImage: true,
+        },
+      },
+    },
+  };
+
+  const populateQuery = {
+    ...generalPopulate,
+    ...featureCardPopulate,
+  };
   const slugQuery = qs.stringify({
-    populate: {
+    populate: populateQuery,
+    filters: {
       slug: {
-        populate: true,
-      },
-      layout: {
-        populate: "*",
+        $eq: pageSlug,
       },
     },
   });
-  const res = await fetch(`http://localhost:1337/api/${slug}?${slugQuery}`, {
-    method: "GET",
-    cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await res.json();
-  const flatData = flattenAttributes(data);
-  return flatData;
+  try {
+    const res = await fetch(`${baseURL}${pageSlug}?${slugQuery}`, {
+      method: "GET",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    const flatData = flattenAttributes(data);
+    return flatData;
+  } catch (err) {
+    console.error(`Something went wrong ${err}`);
+  }
 };
 
 export const getSingleAsset = async (id: string) => {

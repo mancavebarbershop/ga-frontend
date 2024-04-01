@@ -24,7 +24,6 @@ export const RenderLayout: React.FC<RenderLayoutProps> = ({ layout }: any) => {
           data: any;
         }>;
         if (Component) {
-          console.log(Component);
           return <Component data={block} key={i} />;
         } else {
           console.log("didn't render");
