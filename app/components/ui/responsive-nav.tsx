@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const servicesMenu = [
   {
@@ -68,7 +69,7 @@ function classNames(...classes: any) {
 }
 export function ResponsiveNav() {
   return (
-    <div className="flex justify-between container h-12 py-2">
+    <div className="flex justify-between container h-auto py-4">
       <Link className="flex items-center gap-2" href="/">
         <Image
           src="/groomingLogo.png"
@@ -77,8 +78,16 @@ export function ResponsiveNav() {
           alt="Grooming Alchemist Logo"
         />
       </Link>
-      <div className={classNames("md:hidden")}>
+      {/* MOBILE MENU */}
+      <div
+        className={classNames(
+          "flex items-center justify-center gap-2 md:hidden"
+        )}
+      >
         <NavDrawer pages={servicesMenu} />
+        <Link href="/subscribe">
+          <Button variant="default">Subscribe</Button>
+        </Link>
       </div>
       <div
         className={classNames(
@@ -92,7 +101,7 @@ export function ResponsiveNav() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {servicesMenu.map((menu) => (
-              <Link href={menu.slug} key={menu.slug} className="text-black">
+              <Link href={menu.slug} key={menu.slug} className="text-white">
                 <DropdownMenuItem>{menu.title}</DropdownMenuItem>
               </Link>
             ))}

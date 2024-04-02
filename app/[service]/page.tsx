@@ -18,11 +18,14 @@ const getPageData = async (pageSlug: string) => {
     populate: {
       layout: {
         populate: {
+          imageURL: {
+            populate: "*",
+          },
           Feature: {
             populate: "*",
-          }, // Assuming 'featureImage' is the correct field name
+          }, 
         },
-        // ... add other components here if they have nested relations you want to populate
+    
       },
     },
     filters: {

@@ -21,30 +21,17 @@ const pageQuery = qs.stringify({
 });
 
 export const getPageData = async (pageSlug: string) => {
-  const generalPopulate = {
-    "components.cta": true,
-    "components.hero": true,
-  };
-
-  const featureCardPopulate = {
-    "components.feature-cards": {
-      populate: {
-        Feature: {
-          featureImage: true,
-        },
-      },
-    },
-  };
-
-  const populateQuery = {
-    ...generalPopulate,
-    ...featureCardPopulate,
-  };
   const slugQuery = qs.stringify({
-    populate: populateQuery,
-    filters: {
-      slug: {
-        $eq: pageSlug,
+    populate: {
+      layout: {
+        populate: {
+          imageURL: {
+            populate: "*",
+          },
+          Feature: {
+            populate: "*",
+          },
+        },
       },
     },
   });

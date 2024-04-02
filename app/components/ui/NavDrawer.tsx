@@ -22,7 +22,7 @@ export default function NavDrawer({ pages }: PagesProp) {
   return (
     <Drawer>
       <DrawerTrigger className="flex text-base ">
-        <Button>Services</Button>
+        <Button variant="secondary">Services</Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>

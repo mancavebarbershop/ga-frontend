@@ -4,7 +4,7 @@ import qs from "qs";
 
 type FeatureImageData = {
   url: string;
-  alt?: string;
+  alt: string;
 };
 
 type FeatureDetail = {
@@ -32,7 +32,6 @@ interface FeatureCardsProps {
 }
 export default function FeatureCards({ data }: FeatureCardsProps) {
   const normalizedData = Array.isArray(data) ? data : [data];
-  console.log(normalizedData);
   return (
     <section className="px-4 py-12 lg:px-24">
       {normalizedData?.map((card: Partial<FeatureCardData>, i: number) => (

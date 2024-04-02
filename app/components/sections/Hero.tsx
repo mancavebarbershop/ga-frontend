@@ -15,14 +15,15 @@ interface HeroProps {
 }
 
 export default function Hero({ data = {} }: HeroProps) {
+  console.log(data);
   return (
     <section className="flex flex-col px-4 py-20 gap-8 mx-auto">
-      <div
-        className={`w-full h-96 bg-white rounded-xl max-w-[720px] mx-auto relative overflow-hidden ${
-          data.imagePosition === "below" ? "order-1" : null
-        }`}
-      >
-        {data.imageURL?.url && (
+      {data.imageURL?.url && (
+        <div
+          className={`w-full h-96 rounded-xl max-w-[720px] mx-auto relative overflow-hidden ${
+            data.imagePosition === "below" ? "order-1" : null
+          }`}
+        >
           <Image
             src={"http://localhost:1337" + data.imageURL.url}
             alt="Image"
@@ -31,8 +32,8 @@ export default function Hero({ data = {} }: HeroProps) {
               objectFit: "cover",
             }}
           />
-        )}
-      </div>
+        </div>
+      )}
       <div
         className={`w-full flex flex-col gap-8 text-${
           data.alignment || "center"
