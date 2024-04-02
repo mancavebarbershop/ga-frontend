@@ -51,7 +51,7 @@ const getPageData = async (pageSlug: string) => {
 };
 
 export async function generateStaticParams() {
-  const servicePages = await fetch("http://localhost:1337/api/services", {
+  const servicePages = await fetch(`${baseURL}api/services`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
