@@ -5,13 +5,6 @@ import { notFound } from "next/navigation";
 
 const baseURL = process.env.STRAPI_BASE_URL;
 const token = process.env.STRAPI_API_TOKEN;
-const options = {
-  method: "GET",
-  cache: "no-store",
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
 
 const getPageData = async (pageSlug: string) => {
   const slugQuery = qs.stringify({
@@ -36,7 +29,6 @@ const getPageData = async (pageSlug: string) => {
   try {
     const res = await fetch(`${baseURL}/api/services?${slugQuery}`, {
       method: "GET",
-      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -53,7 +45,7 @@ const getPageData = async (pageSlug: string) => {
 export async function generateStaticParams() {
   const servicePages = await fetch(`${baseURL}/api/services`, {
     method: "GET",
-    cache: "no-store",
+
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${token}`,

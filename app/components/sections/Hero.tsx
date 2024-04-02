@@ -17,7 +17,6 @@ interface HeroProps {
 const baseURL = process.env.STRAPI_BASE_URL;
 
 export default function Hero({ data = {} }: HeroProps) {
-  console.log(data);
   return (
     <section className="flex flex-col px-4 py-20 gap-8 mx-auto">
       {data.imageURL?.url && (

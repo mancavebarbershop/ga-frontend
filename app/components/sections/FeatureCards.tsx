@@ -56,7 +56,7 @@ export default function FeatureCards({ data }: FeatureCardsProps) {
                       style={{
                         objectFit: "cover",
                       }}
-                      alt={feature.featureImage.alt}
+                      alt="static alt"
                     />
                   )}
                 </div>
