@@ -23,9 +23,8 @@ const getPageData = async (pageSlug: string) => {
           },
           Feature: {
             populate: "*",
-          }, 
+          },
         },
-    
       },
     },
     filters: {
@@ -35,7 +34,7 @@ const getPageData = async (pageSlug: string) => {
     },
   });
   try {
-    const res = await fetch(`http://localhost:1337/api/services?${slugQuery}`, {
+    const res = await fetch(`${baseURL}api/services?${slugQuery}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

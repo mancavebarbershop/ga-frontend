@@ -36,7 +36,7 @@ export const getPageData = async (pageSlug: string) => {
     },
   });
   try {
-    const res = await fetch(`${baseURL}${pageSlug}?${slugQuery}`, {
+    const res = await fetch(`${baseURL}api/${pageSlug}?${slugQuery}`, {
       method: "GET",
       cache: "no-store",
       headers: {
