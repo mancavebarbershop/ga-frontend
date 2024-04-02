@@ -2,6 +2,8 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import qs from "qs";
 
+const baseURL = process.env.STRAPI_API_TOKEN;
+
 type FeatureImageData = {
   url: string;
   alt: string;
@@ -49,7 +51,7 @@ export default function FeatureCards({ data }: FeatureCardsProps) {
                 >
                   {feature.featureImage.url && (
                     <Image
-                      src={`http://localhost:1337${feature.featureImage.url}`}
+                      src={`${baseURL}${feature.featureImage.url}`}
                       fill
                       style={{
                         objectFit: "cover",
