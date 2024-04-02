@@ -14,6 +14,8 @@ interface HeroProps {
   data: Partial<HeroData>;
 }
 
+const baseURL = process.env.STRAPI_BASE_URL;
+
 export default function Hero({ data = {} }: HeroProps) {
   console.log(data);
   return (
@@ -25,7 +27,7 @@ export default function Hero({ data = {} }: HeroProps) {
           }`}
         >
           <Image
-            src={"http://localhost:1337" + data.imageURL.url}
+            src={baseURL + data.imageURL.url}
             alt="Image"
             fill
             style={{

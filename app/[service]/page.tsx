@@ -34,13 +34,13 @@ const getPageData = async (pageSlug: string) => {
     },
   });
   try {
-    const res = await fetch(`${baseURL}api/services?${slugQuery}`, {
+    const res = await fetch(`${baseURL}/api/services?${slugQuery}`, {
       method: "GET",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      cache: "no-store",
     });
     const data = await res.json();
     const flatData = flattenAttributes(data);
@@ -51,12 +51,13 @@ const getPageData = async (pageSlug: string) => {
 };
 
 export async function generateStaticParams() {
-  const servicePages = await fetch(`${baseURL}api/services`, {
+  const servicePages = await fetch(`${baseURL}/api/services`, {
     method: "GET",
+    cache: "no-store",
     headers: {
+      "Content-type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    cache: "no-store",
   });
   const data = await servicePages.json();
   const flattenedData = flattenAttributes(data);
