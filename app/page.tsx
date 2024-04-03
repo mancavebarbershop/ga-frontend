@@ -6,6 +6,7 @@ import { RenderLayout } from "@/lib/RenderLayout";
 
 export default async function Home() {
   const data = await getPageData("home");
+
   const layout = data.layout;
 
   return <RenderLayout layout={layout} />;

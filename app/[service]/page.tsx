@@ -9,6 +9,9 @@ const token = process.env.STRAPI_API_TOKEN;
 const getPageData = async (pageSlug: string) => {
   const slugQuery = qs.stringify({
     populate: {
+      seo: {
+        slug: true,
+      },
       layout: {
         populate: {
           imageURL: {
@@ -21,20 +24,25 @@ const getPageData = async (pageSlug: string) => {
       },
     },
     filters: {
-      slug: {
-        $eq: pageSlug,
+      seo: {
+        slug: {
+          $eq: pageSlug,
+        },
       },
     },
   });
   try {
-    const res = await fetch(`${baseURL}/api/services?${slugQuery}`, {
+    const fetchURL = `${baseURL}/api/services?${slugQuery}`;
+    const res = await fetch(fetchURL, {
       method: "GET",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
     const data = await res.json();
+    console.log(data);
     const flatData = flattenAttributes(data);
     return flatData;
   } catch (err) {
@@ -46,7 +54,7 @@ export async function generateStaticParams() {
   try {
     const servicePages = await fetch(`${baseURL}/api/services`, {
       method: "GET",
-
+      cache: "no-store",
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -64,9 +72,10 @@ export async function generateStaticParams() {
 
 export default async function ServicesPage({ params }: any) {
   const slug = params.service;
+  console.log(slug);
   try {
     const data = await getPageData(slug);
-
+    console.log(slug, data);
     const { data: flatData } = await flattenAttributes(data);
     if (!flatData[0]) {
       notFound();
