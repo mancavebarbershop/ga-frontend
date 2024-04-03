@@ -43,32 +43,43 @@ const getPageData = async (pageSlug: string) => {
 };
 
 export async function generateStaticParams() {
-  const servicePages = await fetch(`${baseURL}/api/services`, {
-    method: "GET",
+  try {
+    const servicePages = await fetch(`${baseURL}/api/services`, {
+      method: "GET",
 
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const data = await servicePages.json();
-  const flattenedData = flattenAttributes(data);
-  const pagesData = flattenedData.data;
-  return pagesData.map((page: any) => ({ slug: page.slug }));
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await servicePages.json();
+    const flattenedData = flattenAttributes(data);
+    const pagesData = flattenedData.data;
+    return pagesData.map((page: any) => ({ slug: page.slug }));
+  } catch (err) {
+    console.log("Something went wrong with Generate Static Params", err);
+    notFound();
+  }
 }
 
 export default async function ServicesPage({ params }: any) {
   const slug = params.service;
-  const data = await getPageData(slug);
-  const { data: flatData } = await flattenAttributes(data);
-  if (!flatData[0]) {
+  try {
+    const data = await getPageData(slug);
+
+    const { data: flatData } = await flattenAttributes(data);
+    if (!flatData[0]) {
+      notFound();
+    }
+    const pageData = flatData[0];
+    const layout = pageData.layout;
+    return (
+      <main>
+        <RenderLayout layout={layout} />
+      </main>
+    );
+  } catch (err) {
+    console.log(err);
     notFound();
   }
-  const pageData = flatData[0];
-  const layout = pageData.layout;
-  return (
-    <main>
-      <RenderLayout layout={layout} />
-    </main>
-  );
 }
