@@ -31,6 +31,7 @@ export const getPageData = async (pageSlug: string) => {
           Feature: {
             populate: "*",
           },
+          CTA: "*",
         },
       },
     },

@@ -109,6 +109,9 @@ export function ResponsiveNav() {
         </DropdownMenu>
         <Link href="/about">About</Link>
         <Link href="/contact">Contact</Link>
+        <Link href="/subscribe">
+          <Button variant="default">Subscribe</Button>
+        </Link>
       </div>
     </div>
   );

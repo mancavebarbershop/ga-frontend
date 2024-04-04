@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface HeroData {
   heading: string;
@@ -17,8 +18,9 @@ interface HeroProps {
 const baseURL = process.env.STRAPI_BASE_URL;
 
 export default function Hero({ data = {} }: HeroProps) {
+  console.log("hero", data);
   return (
-    <section className="flex flex-col px-4 py-20 gap-8 mx-auto">
+    <section className="flex flex-col container px-4 py-20 gap-8 mx-auto lg:px-20">
       {data.imageURL?.url && (
         <div
           className={`w-full h-96 rounded-xl max-w-[720px] mx-auto relative overflow-hidden ${
@@ -48,7 +50,9 @@ export default function Hero({ data = {} }: HeroProps) {
         </div>
         <p>{data.body || "Body Text"}</p>
         <div>
-          <Button className="large">{data.buttonText || "buttonText"}</Button>
+          <Link href="/subscribe">
+            <Button className="large">{data.buttonText || "buttonText"}</Button>
+          </Link>
         </div>
       </div>
     </section>
