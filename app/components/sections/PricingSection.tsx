@@ -124,7 +124,7 @@ export default function PricingSection() {
                   "text-base"
                 )}
               >
-                /month
+                /week
               </span>
             </p>
             <span className={`text-gray-600`}>{tier.pricingNotes}</span>
